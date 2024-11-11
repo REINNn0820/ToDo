@@ -1,6 +1,11 @@
 * {
   margin: 0;
 }
+.addTask {
+  width: 30px;
+  height: 20px;
+  background-color: #00a300;
+}
 .body {
   background-color: #101010;
   border-radius: 10px;
