@@ -1,12 +1,21 @@
 * {
   margin: 0;
 }
-.addTask {
-  width: 30px;
-  height: 20px;
-  background-color: #00a300;
+body {
+  background: #1a1a1a;
 }
-.body {
+.addTask {
+  width: 100px;
+  height: 40px;
+  background-color: #00a300;
+  border-radius: 4px;
+  color: #ffffff;
+  border: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 300px;
+}
+.wholebody {
   background-color: #101010;
   border-radius: 10px;
   width: 100vw;
