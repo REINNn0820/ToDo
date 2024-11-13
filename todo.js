@@ -1,55 +1,22 @@
-const todo = [];
+let todo = [];
+
+function modal() {
+  const border = document.createElement("div");
+  border.classList.add("modal");
+  render();
+}
+
 function addOne(newTodo) {
   todo.push(newTodo);
 }
 
-const addTask = document.createElement("button");
-addTask.innerText = "addTask";
-addTask.classList.add("addTask");
-document.body.appendChild(addTask);
-
-addTask.onclick = function () {
-  const input = prompt("enter");
-
-  render();
-};
-
-const wholebody = document.createElement("div");
-wholebody.classList.add("wholebody");
-document.body.appendChild(wholebody);
-
-const header = document.createElement("div");
-header.classList.add("header");
-
-wholebody.appendChild(header);
-console.log(wholebody);
-
-const headerDot = document.createElement("div");
-headerDot.classList.add("headerDot");
-header.appendChild(headerDot);
-
-const headerP = document.createElement("p");
-headerP.classList.add("headerP");
-headerP.innerText = "TO DO";
-header.appendChild(headerP);
-
-const headerNumber = document.createElement("h4");
-headerNumber.classList.add("headerNumber");
-headerNumber.innerText = "5";
-header.appendChild(headerNumber);
-
-const hero = document.createElement("div");
-hero.classList.add("hero");
-wholebody.appendChild(hero);
-
 function render() {
-  const todoList = document.querySelector(".hero");
+  const todoList = document.querySelector("#tasks");
   todoList.innerHTML = "";
-  console.log(todoList);
-
   for (let i = 0; i < todo.length; i++) {
     const item = todo[i];
     const element = document.createElement("div");
+    element.classList.add("todo-item");
     const titleEl = document.createElement("p");
     titleEl.innerText = item.name;
 
@@ -59,5 +26,24 @@ function render() {
     element.appendChild(titleEl);
     element.appendChild(btnEl);
     todoList.appendChild(element);
+    render();
   }
+}
+
+function addToDo() {
+  const modal = document.querySelector("#modal");
+  modal.style.display = "block";
+}
+function saveToDo() {
+  const inputValue = document.getElementById("task-name").value;
+  const statusValue = document.getElementById("task-status").value;
+  todo.push({
+    name: inputValue,
+    status: statusValue,
+  });
+  const modal = document.querySelector("#modal");
+  modal.style.display = "none";
+  console.log(inputValue);
+  console.log(statusValue);
+  render();
 }
