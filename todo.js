@@ -1,49 +1,95 @@
-let todo = [];
+let taskToEdit = null;
 
-function modal() {
-  const border = document.createElement("div");
-  border.classList.add("modal");
-  render();
-}
+function openModal(task = null) {
+  document.getElementById("modal").style.display = "block";
 
-function addOne(newTodo) {
-  todo.push(newTodo);
-}
-
-function render() {
-  const todoList = document.querySelector("#tasks");
-  todoList.innerHTML = "";
-  for (let i = 0; i < todo.length; i++) {
-    const item = todo[i];
-    const element = document.createElement("div");
-    element.classList.add("todo-item");
-    const titleEl = document.createElement("p");
-    titleEl.innerText = item.name;
-
-    const btnEl = document.createElement("i");
-    btnEl.classList.add("fa-solid fa-pen-to-square");
-
-    element.appendChild(titleEl);
-    element.appendChild(btnEl);
-    todoList.appendChild(element);
-    render();
+  const modalTitle = document.querySelector("#modal-content > h2");
+  if (task) {
+    modalTitle.innerText = "Edit task";
+    document.getElementById("text").value =
+      task.querySelector(".task-name").innerText;
+    document.getElementById("status").value = task.dataset.status;
+    taskToEdit = task;
+  } else {
+    modalTitle.innerText = "Add task";
+    taskToEdit = null;
+    document.getElementById("text").value = "";
+    document.getElementById("status").value = "select";
   }
 }
 
-function addToDo() {
-  const modal = document.querySelector("#modal");
-  modal.style.display = "block";
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
 }
-function saveToDo() {
-  const inputValue = document.getElementById("task-name").value;
-  const statusValue = document.getElementById("task-status").value;
-  todo.push({
-    name: inputValue,
-    status: statusValue,
+
+function submitTask() {
+  const taskName = document.getElementById("text").value;
+  const taskStatus = document.getElementById("status").value;
+
+  if (taskToEdit) {
+    taskToEdit.querySelector(".task-name").innerText = taskName;
+    const oldStatus = taskToEdit.dataset.status;
+    taskToEdit.dataset.status = taskStatus;
+
+    moveTaskToNewStatus(taskToEdit, oldStatus, taskStatus);
+  } else {
+    addTask(taskName, taskStatus);
+  }
+
+  closeModal();
+}
+
+function addTask(taskName, taskStatus) {
+  if (!taskName) return;
+
+  const taskCard = document.createElement("div");
+  taskCard.classList.add("task-card");
+  taskCard.dataset.status = taskStatus;
+  taskCard.innerHTML = `
+    <span class="task-name">${taskName}</span>
+    <div class="task-actions">
+      <button class="edit-btn">
+        <img src="edit.png" alt="Edit">
+      </button>
+      <button class="delete-btn">
+        <img src="delete.png" alt="Delete">
+      </button>
+    </div>
+  `;
+
+  taskCard
+    .querySelector(".edit-btn")
+    .addEventListener("click", () => openModal(taskCard));
+  taskCard
+    .querySelector(".delete-btn")
+    .addEventListener("click", () => deleteTask(taskCard));
+
+  const taskContainer = document.getElementById(`task-list-${taskStatus}`);
+  taskContainer.appendChild(taskCard);
+  updateTaskCount();
+}
+
+function deleteTask(taskCard) {
+  const status = taskCard.dataset.status;
+  taskCard.remove();
+  updateTaskCount();
+}
+
+function moveTaskToNewStatus(taskCard, oldStatus, newStatus) {
+  const oldContainer = document.getElementById(`task-list-${oldStatus}`);
+  oldContainer.removeChild(taskCard);
+
+  const newContainer = document.getElementById(`task-list-${newStatus}`);
+  newContainer.appendChild(taskCard);
+
+  updateTaskCount();
+}
+
+function updateTaskCount() {
+  const statuses = ["todo", "in-progress", "done", "blocked"];
+  statuses.forEach((status) => {
+    const taskContainer = document.getElementById(`task-list-${status}`);
+    const num = taskContainer ? taskContainer.children.length : 0;
+    document.getElementById(`num-${status}`).innerText = num;
   });
-  const modal = document.querySelector("#modal");
-  modal.style.display = "none";
-  console.log(inputValue);
-  console.log(statusValue);
-  render();
 }

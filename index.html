@@ -3,42 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>To-Do List</title>
+    <link rel="icon" href="icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
     />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="todo.js"></script>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div><button class="addTask" onclick="addToDo()">addTask</button></div>
-    <header>
-      <div class="headerDot"></div>
-      <div class="headerP">To do</div>
-      <div class="headerNumber">5</div>
-    </header>
-    <div id="modal">
-      <div class="container">
-        <p>Enter Task</p>
-        <input type="text" id="task-name" />
-        <select id="task-status" type="text">
-          <option value="To do">To do</option>
-          <option value="Done">Done</option>
-          <option value="in-progress">in-progress</option>
-          <option value="Blocked">Blocked</option>
-        </select>
-        <button class="btnAdd" onclick="saveToDo()">Add Task</button>
-      </div>
+    <div id="button-container">
+      <button onclick="openModal()">Add task</button>
     </div>
-    <main>
-      <div id="todo" class="todo">
-        <div id="tasks"></div>
+    <header>
+      <div id="todo">
+        <div id="inner">
+          <div id="round-shape"></div>
+          <div id="t5">To Do</div>
+          <div id="num-todo">0</div>
+        </div>
+        <div id="task-list-todo"></div>
       </div>
-    </main>
-
-    <script src="todo.js"></script>
+      <div id="in-progress">
+        <div id="inner">
+          <div id="round-shape"></div>
+          <div id="t5">In Progress</div>
+          <div id="num-in-progress">0</div>
+        </div>
+        <div id="task-list-in-progress"></div>
+      </div>
+      <div id="done">
+        <div id="inner">
+          <div id="round-shape"></div>
+          <div id="t5">Done</div>
+          <div id="num-done">0</div>
+        </div>
+        <div id="task-list-done"></div>
+      </div>
+      <div id="blocked">
+        <div id="inner">
+          <div id="round-shape"></div>
+          <div id="t5">Blocked</div>
+          <div id="num-blocked">0</div>
+        </div>
+        <div id="task-list-blocked"></div>
+      </div>
+      <div id="modal">
+        <div id="modal-content">
+          <h2>Enter task</h2>
+          <input type="text" id="text" placeholder="Task name..." />
+          <select id="status">
+            <option value="select">Select status</option>
+            <option value="todo">To Do</option>
+            <option value="in-progress">In Progress</option>
+            <option value="done">Done</option>
+            <option value="blocked">Blocked</option>
+          </select>
+          <button onclick="submitTask()">Submit</button>
+          <span id="close-modal" onclick="closeModal()">X</span>
+        </div>
+      </div>
+    </header>
   </body>
 </html>
